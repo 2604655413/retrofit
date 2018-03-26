@@ -1,0 +1,26 @@
+使用：
+1、修改BaseurlUtil中的baseUrl
+2、在定义Api中的接口时，对象要解析哪个就通过泛型写成哪个，只需要把DataEntity修改为对应的实体对象即可。
+    实体对象定义只定义需要解析的部分。如果多层嵌套定义和使用方式一样。
+
+    API定义如下：
+    @GET("query")
+    Call<BaseEntity<DataEntity>> getCall(@Query("") String str, @Query("") String str2);
+3、如果需要添加cache、auth、agent等只需要在OkhttpUtil添加拦截（可能具体的内容需要修改）
+4、可以把通用的处理部分写到基类中
+        api.getCall("shentong", "3352441116109").clone().enqueue(new RetrofitManager<BaseBean<DataBean>>(){
+            @Override
+            public void onResponse(Call<BaseBean<DataBean>> call, Response<BaseBean<DataBean>> response) {
+                super.onResponse(call, response);
+            }
+        });
+5、使用
+    首先要初始化Api:
+        Api api = RetrofitManager.initApi(getApplicationContext());
+    其次进行请求操作：
+        api.getCall("shentong", "3352441116109").clone().enqueue(new RetrofitManager<BaseBean<DataBean>>(){
+            @Override
+            public void onResponse(Call<BaseBean<DataBean>> call, Response<BaseBean<DataBean>> response) {
+                super.onResponse(call, response);
+            }
+        });
